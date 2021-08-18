@@ -36,7 +36,7 @@ namespace CP380_B1_BlockList.Models
             //
             // TODO
             //
-            var inputString = $""; // TODO
+            var inputString = $"{TimeStamp.Date:yyyy-MM-dd hh:mm:ss tt}-{PreviousHash}-{Nonce}-{json}"; // TODO
 
             var inputBytes = Encoding.ASCII.GetBytes(inputString);
             var outputBytes = sha256.ComputeHash(inputBytes);
@@ -46,7 +46,15 @@ namespace CP380_B1_BlockList.Models
 
         public void Mine(int difficulty)
         {
-            // TODO
+            string hash = new String('C', difficulty);
+
+            string cal_hash = CalculateHash();
+
+            while (cal_hash.Substring(0, difficulty) != hash)
+            {   Nonce++;
+                cal_hash = CalculateHash();
+            }
+            Hash = cal_hash;
         }
     }
 }
